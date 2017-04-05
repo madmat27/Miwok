@@ -1,0 +1,48 @@
+Applications Memory Usage (kB):
+Uptime: 332701762 Realtime: 399210592
+
+** MEMINFO in pid 27063 [com.example.android.miwok] **
+                   Pss  Private  Private  Swapped     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------
+  Native Heap     6006     5980        0     4608    14720    12520     2199
+  Dalvik Heap     3491     3484        0     2156     5892     4967      925
+ Dalvik Other      804      804        0       84                           
+        Stack      296      296        0        0                           
+       Ashmem        2        0        0        0                           
+    Other dev        4        0        4        0                           
+     .so mmap      721       96      104     4008                           
+    .apk mmap       18        0        0        0                           
+    .dex mmap     2984     2984        0        0                           
+    .oat mmap      750        0        0        0                           
+    .art mmap     1160      872        0      616                           
+   Other mmap       14        8        0        0                           
+   EGL mtrack    28824    28824        0        0                           
+      Unknown      136      136        0      176                           
+        TOTAL    45210    43484      108    11648    20612    17487     3124
+ 
+ App Summary
+                       Pss(KB)
+                        ------
+           Java Heap:     4356
+         Native Heap:     5980
+                Code:     3184
+               Stack:      296
+            Graphics:    28824
+       Private Other:      952
+              System:     1618
+ 
+               TOTAL:    45210      TOTAL SWAP (KB):    11648
+ 
+ Objects
+               Views:       19         ViewRootImpl:        1
+         AppContexts:        3           Activities:        1
+              Assets:        3        AssetManagers:        2
+       Local Binders:       10        Proxy Binders:       23
+       Parcel memory:        6         Parcel count:       24
+    Death Recipients:        0      OpenSSL Sockets:        0
+ 
+ SQL
+         MEMORY_USED:        0
+  PAGECACHE_OVERFLOW:        0          MALLOC_SIZE:        0
+ 
