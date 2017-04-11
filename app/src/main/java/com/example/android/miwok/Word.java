@@ -24,27 +24,36 @@ public class Word {
     private int mImageResourceId = NO_IMAGE_PROVIDED;
 
     /**
+     * Audio Resource ID for the word
+     */
+    private int mAudioResourceId;
+
+    /**
      * Main Ctor with 2 parameters
      *
-     * @param DefaultTranslation Provides the Default Word
-     * @param MiwokTranslation   Provides the Miwok Translation
+     * @param defaultTranslation Provides the Default Word
+     * @param miwokTranslation   Provides the Miwok Translation
+     * @param audioResourceId    Provides the audio file
      */
-    public Word(String DefaultTranslation, String MiwokTranslation) {
-        mDefaultTranslation = DefaultTranslation;
-        mMiwokTranslation = MiwokTranslation;
+    public Word(String defaultTranslation, String miwokTranslation, int audioResourceId) {
+        mDefaultTranslation = defaultTranslation;
+        mMiwokTranslation = miwokTranslation;
+        mAudioResourceId = audioResourceId;
     }
 
     /**
      * Secondary Ctor with 3 parameters
      *
-     * @param DefaultTranslation Provides the Default Word
-     * @param MiwokTranslation   Provides the Miwok Translation
-     * @param ImageResourceId    Provides the relevant Image where applicable
+     * @param defaultTranslation Provides the Default Word
+     * @param miwokTranslation   Provides the Miwok Translation
+     * @param imageResourceId    Provides the relevant Image where applicable
+     * @param audioResourceId    Provides the audio file
      */
-    public Word(String DefaultTranslation, String MiwokTranslation, int ImageResourceId) {
-        mDefaultTranslation = DefaultTranslation;
-        mMiwokTranslation = MiwokTranslation;
-        mImageResourceId = ImageResourceId;
+    public Word(String defaultTranslation, String miwokTranslation, int imageResourceId, int audioResourceId) {
+        mDefaultTranslation = defaultTranslation;
+        mMiwokTranslation = miwokTranslation;
+        mImageResourceId = imageResourceId;
+        mAudioResourceId = audioResourceId;
     }
 
 
@@ -82,5 +91,29 @@ public class Word {
      */
     public boolean hasImage() {
         return mImageResourceId != NO_IMAGE_PROVIDED;
+    }
+
+    /**
+     * Audio Resource Getter
+     *
+     * @return the ID of the AudioResource used
+     */
+    public int getAudioResourceId() {
+        return mAudioResourceId;
+    }
+
+    /**
+     * For Debugging purposes!!! Excellent tool!
+     *
+     * @return A string with all class components
+     */
+    @Override
+    public String toString() {
+        return "Word{" +
+                "mDefaultTranslation='" + mDefaultTranslation + '\'' +
+                ", mMiwokTranslation='" + mMiwokTranslation + '\'' +
+                ", mImageResourceId=" + mImageResourceId +
+                ", mAudioResourceId=" + mAudioResourceId +
+                '}';
     }
 }
