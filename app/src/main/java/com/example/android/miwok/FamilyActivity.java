@@ -7,12 +7,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class FamilyActivity extends AppCompatActivity {
 
     private MediaPlayer mediaPlayer;
+
+    /**
+     * This Listener gets triggered when the {@Link MediaPlayer} has completed
+     * playing the audio file.
+     */
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +48,7 @@ public class FamilyActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                releaseMediaPlayer();
                 Word word = words.get(position);
                 // Debugging
                 Log.v("FamilyActivity", "Current word: " + word.toString());
@@ -48,7 +56,32 @@ public class FamilyActivity extends AppCompatActivity {
                 mediaPlayer = MediaPlayer.create(FamilyActivity.this, word.getAudioResourceId());
                 // Play the audio file!
                 mediaPlayer.start();
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mediaPlayer) {
+                        Toast.makeText(getApplicationContext(), "I 'm done!", Toast.LENGTH_SHORT).show();
+                        releaseMediaPlayer();
+                    }
+                });
             }
         });
+    }
+
+    /**
+     * Clean up the media player by releasing its resources.
+     */
+    private void releaseMediaPlayer() {
+        // If the media player is not null, then it may be currently playing a sound.
+        if (mediaPlayer != null) {
+            // Regardless of the current state of the media player, release its resources
+            // because we no longer need it.
+            mediaPlayer.release();
+            Log.v("FamilyActivity", "Resources released");
+
+            // Set the media player back to null. For our code, we've decided that
+            // setting the media player to null is an easy way to tell that the media player
+            // is not configured to play an audio file at the moment.
+            mediaPlayer = null;
+        }
     }
 }
