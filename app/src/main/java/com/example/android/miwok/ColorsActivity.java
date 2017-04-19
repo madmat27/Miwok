@@ -14,6 +14,16 @@ public class ColorsActivity extends AppCompatActivity {
 
     private MediaPlayer mediaPlayer;
 
+    /**
+     * This listener gets triggered when the mediaPlayer has completed playing the audio file
+     */
+    private MediaPlayer.OnCompletionListener completionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mediaPlayer) {
+            releaseMediaPlayer();
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,11 +52,40 @@ public class ColorsActivity extends AppCompatActivity {
                 Word word = words.get(position);
                 // Debugging
                 Log.v("ColorsActivity", "Current word: " + word.toString());
+                // Release the media player if it currently exists in order to play a different audio file
+                releaseMediaPlayer();
                 // Assign to the object the audio file
                 mediaPlayer = MediaPlayer.create(ColorsActivity.this, word.getAudioResourceId());
                 // Play the audio file!
                 mediaPlayer.start();
+                // When audio is done, clean up the media player by releasing its resources.
+                mediaPlayer.setOnCompletionListener(completionListener);
             }
         });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // When the activity is stopped, we are releasing the media player,
+        // as no audio will be played.
+        releaseMediaPlayer();
+    }
+
+    /**
+     * Clean up the media player by releasing its resources.
+     */
+    private void releaseMediaPlayer() {
+        // If the media player is not null, then it may be currently playing a sound.
+        if (mediaPlayer != null) {
+            // Regardless of the current state of the media player, release its resources
+            // because we no longer need it.
+            mediaPlayer.release();
+
+            // Set the media player back to null. For our code, we've decided that
+            // setting the media player to null is an easy way to tell that the media player
+            // is not configured to play an audio file at the moment.
+            mediaPlayer = null;
+        }
     }
 }

@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -16,10 +15,14 @@ public class FamilyActivity extends AppCompatActivity {
     private MediaPlayer mediaPlayer;
 
     /**
-     * This Listener gets triggered when the {@Link MediaPlayer} has completed
-     * playing the audio file.
+     * This listener gets triggered when the mediaPlayer has completed playing the audio file
      */
-
+    private MediaPlayer.OnCompletionListener completionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mediaPlayer) {
+            releaseMediaPlayer();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,19 +55,24 @@ public class FamilyActivity extends AppCompatActivity {
                 Word word = words.get(position);
                 // Debugging
                 Log.v("FamilyActivity", "Current word: " + word.toString());
+                // Release the media player if it currently exists in order to play a different audio file
+                releaseMediaPlayer();
                 // Assign to the object the audio file
                 mediaPlayer = MediaPlayer.create(FamilyActivity.this, word.getAudioResourceId());
                 // Play the audio file!
                 mediaPlayer.start();
-                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mediaPlayer) {
-                        Toast.makeText(getApplicationContext(), "I 'm done!", Toast.LENGTH_SHORT).show();
-                        releaseMediaPlayer();
-                    }
-                });
+                // When audio is done, clean up the media player by releasing its resources.
+                mediaPlayer.setOnCompletionListener(completionListener);
             }
         });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // When the activity is stopped, we are releasing the media player,
+        // as no audio will be played.
+        releaseMediaPlayer();
     }
 
     /**
@@ -76,7 +84,6 @@ public class FamilyActivity extends AppCompatActivity {
             // Regardless of the current state of the media player, release its resources
             // because we no longer need it.
             mediaPlayer.release();
-            Log.v("FamilyActivity", "Resources released");
 
             // Set the media player back to null. For our code, we've decided that
             // setting the media player to null is an easy way to tell that the media player
